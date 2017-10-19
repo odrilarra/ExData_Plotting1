@@ -1,0 +1,11 @@
+setwd("/Users/odrilarra/Documents/APUNTEAK/Coursera/4.Exploratory Data Analysis/WEEK1/Assignment")
+library(dplyr)
+library(data.table)
+house <- fread("household_power_consumption.txt",sep=";",h=T,na.strings = "?")
+house <- mutate(house,Date=as.Date(Date,format="%d/%m/%Y"))
+house.sub <- house[Date>="2007-02-01" & Date<="2007-02-02"]
+house.sub <- transform(house.sub,DateTime=paste(Date,Time," "))
+house.sub <- transform(house.sub,DateTime=strptime(DateTime,format = "%Y-%m-%d %H:%M:%S"))
+png("plot1.png",width=480,height=480,units="px")
+hist(house.sub$Global_active_power,col="red",xlab="Global Active Power (kilowatts)",main="Global Active Power")
+dev.off()
